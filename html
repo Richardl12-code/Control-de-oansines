@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de OANSINES - AWANA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e4b7c 0%, #3b6999 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .header-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .club-info, .date-info {
+            flex: 1;
+            min-width: 300px;
+            margin: 10px;
+        }
+        
+        .club-info input, .date-info input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 20px;
+            background-color: #e9ecef;
+            justify-content: center;
+        }
+        
+        .category {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .category:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #1e4b7c;
+        }
+        
+        .category-value {
+            font-size: 1.2rem;
+            color: #28a745;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        th {
+            background-color: #1e4b7c;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e9ecef;
+        }
+        
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        
+        input[type="checkbox"] {
+            transform: scale(1.5);
+            cursor: pointer;
+        }
+        
+        input[type="date"] {
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e4b7c 0%, #3b6999 100%);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            color: white;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .summary {
+            padding: 20px;
+            background-color: #e9ecef;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .summary h3 {
+            margin-bottom: 15px;
+            color: #1e4b7c;
+            text-align: center;
+        }
+        
+        .summary-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .summary-item {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .summary-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e4b7c;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-info {
+                flex-direction: column;
+            }
+            
+            th, td {
+                padding: 8px 5px;
+            }
+            
+            .category {
+                min-width: 120px;
+            }
+            
+            button {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .instructions {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            margin-top: 20px;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        .instructions h3 {
+            color: #1e4b7c;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .github-info {
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+            padding: 15px;
+        }
+
+        .github-info a {
+            color: #ffd43b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .github-info a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Control de OANSINES</h1>
+            <div class="subtitle">Programa AWANA - Sistema de seguimiento de recompensas</div>
+        </header>
+        
+        <div class="header-info">
+            <div class="club-info">
+                <label for="club-name">Nombre del Club:</label>
+                <input type="text" id="club-name" placeholder="Ej: Club de la Esperanza">
+            </div>
+            <div class="club-info">
+                <label for="leader-name">Líder Responsable:</label>
+                <input type="text" id="leader-name" placeholder="Tu nombre">
+            </div>
+            <div class="date-info">
+                <label for="session-date">Fecha de la Sesión:</label>
+                <input type="date" id="session-date">
+            </div>
+        </div>
+        
+        <div class="categories">
+            <div class="category">
+                <div class="category-title">Sección</div>
+                <div class="category-value">1 oansín</div>
+            </div>
+            <div class="category">
+                <div class="category-title">Biblia</div>
+                <div class="category-value">2 oansines</div>
+            </div>
+            <div class="category">
+                <div class="category-title">Asistencia</div>
+                <div class="category-value">1 oansín</div>
+            </div>
+            <div class="category">
+                <div class="category-title">Puntualidad</div>
+                <div class="category-value">1 oansín</div>
+            </div>
+            <div class="category">
+                <div class="category-title">Visitas</div>
+                <div class="category-value">2 oansines c/u</div>
+            </div>
+            <div class="category">
+                <div class="category-title">Uniforme</div>
+                <div class="category-value">1 oansín</div>
+            </div>
+        </div>
+        
+        <div style="overflow-x: auto;">
+            <table id="main-table">
+                <thead>
+                    <tr>
+                        <th>Nombre del Niño/a</th>
+                        <th>Sección</th>
+                        <th>Biblia</th>
+                        <th>Asistencia</th>
+                        <th>Puntualidad</th>
+                        <th>Visitas</th>
+                        <th>Uniforme</th>
+                        <th>Total Oansines</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" placeholder="Nombre completo" class="name-input"></td>
+                        <td><input type="checkbox" class="section"></td>
+                        <td><input type="checkbox" class="bible"></td>
+                        <td><input type="checkbox" class="attendance"></td>
+                        <td><input type="checkbox" class="punctuality"></td>
+                        <td><input type="number" min="0" value="0" class="visits"></td>
+                        <td><input type="checkbox" class="uniform"></td>
+                        <td class="total">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="actions">
+            <button id="add-row" class="btn-primary">
+                <i class="fas fa-plus-circle"></i> Añadir Niño/a
+            </button>
+            <button id="save-btn" class="btn-success">
+                <i class="fas fa-save"></i> Guardar Datos
+            </button>
+            <button id="print-btn" class="btn-primary">
+                <i class="fas fa-print"></i> Imprimir Hoja
+            </button>
+            <button id="reset-btn" class="btn-danger">
+                <i class="fas fa-redo"></i> Nueva Hoja
+            </button>
+        </div>
+        
+        <div class="summary">
+            <h3>Resumen de la Sesión</h3>
+            <div class="summary-content">
+                <div class="summary-item">
+                    <div>Total de niños participantes</div>
+                    <div class="summary-value" id="total-children">1</div>
+                </div>
+                <div class="summary-item">
+                    <div>Total de oansines entregados</div>
+                    <div class="summary-value" id="total-oansines">0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>Instrucciones de uso:</h3>
+            <ul>
+                <li>Completa la información de tu club AWANA en la parte superior</li>
+                <li>Añade los nombres de los niños/as en la primera columna</li>
+                <li>Marca las casillas según los logros de cada niño</li>
+                <li>Para visitas, ingresa el número de visitas que trajo el niño (cada visita vale 2 oansines)</li>
+                <li>Los totales se calculan automáticamente</li>
+                <li>Usa los botones de la parte inferior para guardar, imprimir o reiniciar la hoja</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="github-info">
+        <p>Esta aplicación está optimizada para GitHub Pages. Para implementarla:</p>
+        <p>1. Crea un repositorio en GitHub<br>
+           2. Añade este código en un archivo index.html<br>
+           3. Activa GitHub Pages en la configuración del repositorio</p>
+        <p>Visita el <a href="https://docs.github.com/es/pages" target="_blank">Tutorial de GitHub Pages</a> para más información.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const table = document.getElementById('main-table');
+            const addRowBtn = document.getElementById('add-row');
+            const printBtn = document.getElementById('print-btn');
+            const saveBtn = document.getElementById('save-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            // Establecer fecha actual por defecto
+            const today = new Date();
+            const formattedDate = today.toISOString().substr(0, 10);
+            document.getElementById('session-date').value = formattedDate;
+            
+            // Añadir nueva fila
+            addRowBtn.addEventListener('click', function() {
+                const tbody = table.querySelector('tbody');
+                const newRow = tbody.rows[0].cloneNode(true);
+                
+                // Limpiar los valores de la nueva fila
+                newRow.querySelector('.name-input').value = '';
+                newRow.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                newRow.querySelector('.visits').value = '0';
+                newRow.querySelector('.total').textContent = '0';
+                
+                tbody.appendChild(newRow);
+                updateTotals();
+                
+                // Añadir evento para recalcular cuando cambie cualquier valor
+                attachEventListenersToRow(newRow);
+            });
+            
+            // Función para adjuntar eventos a una fila
+            function attachEventListenersToRow(row) {
+                const inputs = row.querySelectorAll('input');
+                inputs.forEach(input => {
+                    input.addEventListener('change', updateRowTotal);
+                });
+            }
+            
+            // Adjuntar eventos a la fila inicial
+            const initialRow = table.querySelector('tbody tr');
+            attachEventListenersToRow(initialRow);
+            
+            // Calcular total por fila
+            function updateRowTotal(event) {
+                const row = event.target.closest('tr');
+                const section = row.querySelector('.section').checked ? 1 : 0;
+                const bible = row.querySelector('.bible').checked ? 2 : 0;
+                const attendance = row.querySelector('.attendance').checked ? 1 : 0;
+                const punctuality = row.querySelector('.punctuality').checked ? 1 : 0;
+                const visits = parseInt(row.querySelector('.visits').value) * 2; // Cada visita vale 2 oansines
+                const uniform = row.querySelector('.uniform').checked ? 1 : 0;
+                
+                const total = section + bible + attendance + punctuality + visits + uniform;
+                row.querySelector('.total').textContent = total;
+                
+                updateTotals();
+            }
+            
+            // Actualizar totales generales
+            function updateTotals() {
+                const rows = table.querySelectorAll('tbody tr');
+                let totalOansines = 0;
+                
+                rows.forEach(row => {
+                    totalOansines += parseInt(row.querySelector('.total').textContent);
+                });
+                
+                document.getElementById('total-children').textContent = rows.length;
+                document.getElementById('total-oansines').textContent = totalOansines;
+            }
+            
+            // Imprimir hoja
+            printBtn.addEventListener('click', function() {
+                window.print();
+            });
+            
+            // Guardar datos
+            saveBtn.addEventListener('click', function() {
+                // Crear objeto con los datos
+                const clubData = {
+                    clubName: document.getElementById('club-name').value,
+                    leaderName: document.getElementById('leader-name').value,
+                    sessionDate: document.getElementById('session-date').value,
+                    children: []
+                };
+                
+                // Recopilar datos de cada niño
+                const rows = table.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const name = row.querySelector('.name-input').value;
+                    if (name) {
+                        clubData.children.push({
+                            name: name,
+                            section: row.querySelector('.section').checked,
+                            bible: row.querySelector('.bible').checked,
+                            attendance: row.querySelector('.attendance').checked,
+                            punctuality: row.querySelector('.punctuality').checked,
+                            visits: parseInt(row.querySelector('.visits').value),
+                            uniform: row.querySelector('.uniform').checked,
+                            total: parseInt(row.querySelector('.total').textContent)
+                        });
+                    }
+                });
+                
+                // Guardar en localStorage
+                localStorage.setItem('awanaOansinesData', JSON.stringify(clubData));
+                
+                // Mostrar mensaje de confirmación
+                alert('Datos guardados correctamente. Podrás recuperarlos en tu próxima visita.');
+            });
+            
+            // Cargar datos guardados
+            function loadSavedData() {
+                const savedData = localStorage.getItem('awanaOansinesData');
+                if (savedData) {
+                    const clubData = JSON.parse(savedData);
+                    
+                    document.getElementById('club-name').value = clubData.clubName || '';
+                    document.getElementById('leader-name').value = clubData.leaderName || '';
+                    document.getElementById('session-date').value = clubData.sessionDate || formattedDate;
+                    
+                    // Limpiar tabla
+                    const tbody = table.querySelector('tbody');
+                    tbody.innerHTML = '';
+                    
+                    // Añadir niños guardados
+                    if (clubData.children && clubData.children.length > 0) {
+                        clubData.children.forEach(child => {
+                            const newRow = document.createElement('tr');
+                            newRow.innerHTML = `
+                                <td><input type="text" placeholder="Nombre completo" class="name-input" value="${child.name}"></td>
+                                <td><input type="checkbox" class="section" ${child.section ? 'checked' : ''}></td>
+                                <td><input type="checkbox" class="bible" ${child.bible ? 'checked' : ''}></td>
+                                <td><input type="checkbox" class="attendance" ${child.attendance ? 'checked' : ''}></td>
+                                <td><input type="checkbox" class="punctuality" ${child.punctuality ? 'checked' : ''}></td>
+                                <td><input type="number" min="0" value="${child.visits}" class="visits"></td>
+                                <td><input type="checkbox" class="uniform" ${child.uniform ? 'checked' : ''}></td>
+                                <td class="total">${child.total}</td>
+                            `;
+                            tbody.appendChild(newRow);
+                            attachEventListenersToRow(newRow);
+                        });
+                    } else {
+                        // Añadir una fila vacía si no hay datos de niños
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td><input type="text" placeholder="Nombre completo" class="name-input"></td>
+                            <td><input type="checkbox" class="section"></td>
+                            <td><input type="checkbox" class="bible"></td>
+                            <td><input type="checkbox" class="attendance"></td>
+                            <td><input type="checkbox" class="punctuality"></td>
+                            <td><input type="number" min="0" value="0" class="visits"></td>
+                            <td><input type="checkbox" class="uniform"></td>
+                            <td class="total">0</td>
+                        `;
+                        tbody.appendChild(newRow);
+                        attachEventListenersToRow(newRow);
+                    }
+                    
+                    updateTotals();
+                }
+            }
+            
+            // Cargar datos al iniciar
+            loadSavedData();
+            
+            // Reiniciar hoja
+            resetBtn.addEventListener('click', function() {
+                if (confirm('¿Estás seguro de que quieres comenzar una nueva hoja? Se perderán todos los datos no guardados.')) {
+                    localStorage.removeItem('awanaOansinesData');
+                    
+                    const tbody = table.querySelector('tbody');
+                    tbody.innerHTML = '';
+                    
+                    // Añadir una fila vacía
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td><input type="text" placeholder="Nombre completo" class="name-input"></td>
+                        <td><input type="checkbox" class="section"></td>
+                        <td><input type="checkbox" class="bible"></td>
+                        <td><input type="checkbox" class="attendance"></td>
+                        <td><input type="checkbox" class="punctuality"></td>
+                        <td><input type="number" min="0" value="0" class="visits"></td>
+                        <td><input type="checkbox" class="uniform"></td>
+                        <td class="total">0</td>
+                    `;
+                    tbody.appendChild(newRow);
+                    attachEventListenersToRow(newRow);
+                    
+                    // Limpiar información de la cabecera
+                    document.getElementById('club-name').value = '';
+                    document.getElementById('leader-name').value = '';
+                    
+                    // Restablecer la fecha a hoy
+                    document.getElementById('session-date').value = formattedDate;
+                    
+                    updateTotals();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
