@@ -461,12 +461,12 @@
             // Calcular total por fila
             function updateRowTotal(event) {
                 const row = event.target.closest('tr');
-                const section = row.querySelector('.section').checked ? 1 : 0;
-                const bible = row.querySelector('.bible').checked ? 2 : 0;
-                const attendance = row.querySelector('.attendance').checked ? 1 : 0;
-                const punctuality = row.querySelector('.punctuality').checked ? 1 : 0;
+                const section = perseInt(row.querySelector('.section').value)*20;
+                const bible = row.querySelector('.bible').value *20;
+                const attendance = row.querySelector('.attendance').value*10;
+                const punctuality = row.querySelector('.punctuality').value*10;
                 const visits = parseInt(row.querySelector('.visits').value) * 2; // Cada visita vale 2 oansines
-                const uniform = row.querySelector('.uniform').checked ? 1 : 0;
+                const uniform = row.querySelector('.uniform').value*100;
                 
                 const total = section + bible + attendance + punctuality + visits + uniform;
                 row.querySelector('.total').textContent = total;
